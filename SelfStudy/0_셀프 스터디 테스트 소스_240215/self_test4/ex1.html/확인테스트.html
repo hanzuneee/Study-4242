@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자판기</title>
+    <style>
+        #box {
+            width: 250px;
+            height: 300px;
+            border: 2px solid black;
+            text-align: center;
+            position: absolute;
+            opacity: 0.7;
+        }
+        .box1 {
+            width: 230px;
+            height: 100px;
+            border: 1px solid black;
+            position: relative;
+            opacity: 0.7;
+            text-align: center;
+            right: 0%; left: 4.5%;
+            top: 3%;
+            bottom: 0;
+        }
+            
+        .smallbox {
+         left: 10px;
+         width: 60px;
+         height: 80px;
+         border: 1px solid black;
+         position: absolute;
+         top: 10px;
+        }
+        
+        .smallbox_cola {
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        
+        }
+
+      .smallbox2 {
+         left: 80px; 
+         width: 60px;
+         height: 80px;
+         border: 1px solid black;
+         position: absolute;
+         top: 10px; 
+        }
+
+        .smallbox_cider {
+
+        }
+
+      .smallbox3 {
+         left: 160px;
+         width: 60px;
+         height: 80px;
+         border: 1px solid black;
+         position: absolute;
+         top: 10px; 
+        }
+
+        .smallbox_fanta {
+
+        }
+
+        .text-container {
+             position: absolute;
+             bottom: 0;
+             width: 100%;
+        }
+        
+        .box2 {
+         width: 230px;
+         height: 30px;
+         border: 1px solid black;
+         position: relative;
+         opacity: 0.7;
+         text-align: center;
+         right: 0%;
+         left: 1%;
+         top: 3%;
+         margin: 3%;
+         
+         }
+
+        .box3 {
+            width: 230px;
+            height: 50px;
+            border: 1px solid black;
+            position: relative;
+            opacity: 0.7;
+            text-align: center;
+            left: 1%; 
+            top: 3%;
+            margin: 3%;
+            line-height: 50px; 
+        }
+
+        .box4 {
+        width: 230px;
+        height: 80px;
+        border: 1px solid black;
+        position: absolute;
+        opacity: 0.7;
+        text-align: left;
+        left: 1%; 
+        top: 3%;
+        margin: 3%;
+        line-height: 50px;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div id="box">
+    <div class="box1">
+        <div class="smallbox">
+            콜라
+            1000원
+            <img id="smallbox_cola" src="img/coke.jpeg">
+            <!-- <img id="smallbox" src="coke.jpeg./img"> -->
+        </div>    
+        <div class="smallbox2">
+            사이다 
+            500원
+            <img id="smallbox2" src="img/cider.jpeg">
+            <!-- <img id="smallbox2" src="cider.jpeg./img"> -->
+        </div>
+        <div class="smallbox3">
+            환타
+            700원
+            <img id="smallbox3" src="img/fanta.jpeg">
+            <!-- <img id="smallbox3" src="fanta.jpeg./img"> -->
+        </div>
+        
+    </div>
+
+    <div class="box2">
+        
+        <script>
+        let balance = 0;
+        function increaseBalance() {
+            balance += 100;
+            updateBalance();
+        }
+        function updateBalance() {
+            document.getElementById('balance').innerText = balance;
+        }
+        
+        function purchaseDrink() {
+            if (balance >= drinkPrice) {
+                balance -= drinkPrice;
+                updateBalance();
+            } 
+            else {
+                alert('돈이 부족합니다');
+            }
+        }
+    </script>
+    </div>
+    
+    <div class="box3">상품나오는 곳</div>
+    
+    <div class="box4>">거스름돈 나오는 곳</div>
+
+</body>
+</html>
+
+<p>잔액: <span id="balance">0</span>원</p>
+<button onclick="increaseBalance()">투입</button>
+
+
+
+
+
+
+

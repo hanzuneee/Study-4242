@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자판기수정본</title>
+    <style>
+      body {
+        background-color: #f0fff0;
+      }
+
+      .container {
+        width: 300px;
+        height: 310px;
+        background-color: white;
+        border: 1px solid black;
+        padding: 5px 0;  /*여백 크기 조절, 세로-가로*/
+        display: flex;  /*디스플레이 속성은 부모 요소에 적용 */
+        flex-direction: column;  /*주축의 방향이 세로로 정렬 */
+        flex-wrap: nowrap;  /*행 줄바꿈 안하고 한줄로 표시*/
+        justify-content: space-between; /*양옆 간격을 두지만 뷰포트 양쪽에 flex item이 배치되도록 나열*/
+        align-items: center;
+      }
+
+      .item {
+        width: 280px;
+        border: 1px solid lightgray;
+        text-align: center;
+        padding: 3px;
+      }
+
+      #beverage {
+        display: inline-block;  /*block 요소지만 자신의 크기만큼만 영역차지 하도록 함*/
+        margin: 3px 0;
+        padding: 3px;  /*여백 크기 조절, 세로-가로*/
+        width: 80px;
+        border: 1px solid lightgray;
+        text-align: center;
+      }
+
+      #beverage img {
+        width: 70px;
+        height: 70px;
+        border: 1px solid lightgray;
+      }
+
+      #insertPrice {
+        padding: 3px;
+        width: 220px;
+        height: 25px;
+        box-sizing: border-box;
+      }
+
+      #insertPrice::placeholder {
+        color: brown;
+        font-weight: bold;
+        text-align: right;
+        font-size: 17px;
+      }
+
+      #insert {
+        width: 45px;
+        height: 25px;
+      }
+
+      #merchanTxt {
+        line-height: 60px;
+      }
+
+      #merchandise {
+        width: 120px;
+        height: 55px;
+        border-radius: 20px;
+        margin-left: 5px;
+        display: none;
+        line-height: 55px;
+        justify-content: center;
+        border: solid 1px lightgray;
+      }
+
+      #change {
+        width: 45px;
+        height: 45px;
+        border-radius: 50px;
+        border: solid 1px black;
+        background-color: #f0fff0;
+        margin: 2px 0;
+        text-align: center;
+        font-size: 19px;
+      }
+
+      #change::placeholder {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item">
+        <div id="beverage" onclick="pay('콜라', 1000)">
+          <img src="./image/cola.png" /> <br />
+          <strong>콜라</strong> <br />
+          <small>1,000원</small>
+        </div>
+
+        <div id="beverage" onclick="pay('사이다', 500)">
+          <img src="./image/cider.png" /> <br />
+          <strong>사이다</strong> <br />
+          <small>500원</small>
+        </div>
+
+        <div id="beverage" onclick="pay('환타', 700)">
+          <img src="./image/fanta.png" /> <br />
+          <strong>환타</strong> <br />
+          <small>700원</small>
+        </div>
+      </div>
+
+      <div class="item">
+        <input type="text" placeholder="0" id="insertPrice" />
+        <input type="button" value="투입" id="insert" onclick="insert()" />
+      </div>
+
+      <div class="item" id="merchanItem">
+        <b id="merchanTxt">상품 나오는 곳</b>
+        <span id="merchandise"></span>
+      </div>
+
+      <div class="item">
+        <span id="changeTxt">거스름돈 나오는 곳 &nbsp;</span>
+        <input type="text" id="change" placeholder="0" />
+      </div>
+    </div>
+  </body>
+
+  <script>
+    let i = 0;
+
+    function insert() {
+      i += 100;
+      document.getElementById('insertPrice').value = i;
+      document.getElementById('insertPrice').style.cssText =
+        'color: brown; font-weight: bold; text-align: right; font-size: 17px;';
+    }
+
+    function pay(beverName, beverPrice) {
+      let possession = parseInt(document.getElementById('insertPrice').value);
+      if (possession >= beverPrice) {
+        document.getElementById('merchandise').innerText = beverName;
+        document.getElementById('merchanTxt').style.display = 'none';
+        document.getElementById('merchandise').style.display = 'flex';
+        if (beverName == '콜라') {
+          document.getElementById('merchandise').style.backgroundColor = 'gray';
+        } else if (beverName == '사이다') {
+          document.getElementById('merchandise').style.backgroundColor =
+            'white';
+        } else {
+          document.getElementById('merchandise').style.backgroundColor =
+            'yellow';
+        }
+        document.getElementById('change').value = i - beverPrice;
+        document.getElementById('insertPrice').value = 0;
+        i = 0;
+      } else {
+        alert('돈이 부족합니다.');
+      }
+    }
+  </script>
+</html>

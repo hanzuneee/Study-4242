@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+            /* display: inline-flex; */
+
+            flex-direction: row; /*아이템 가로(행) 방향 배치*/
+            /* flex-direction: column;*/ /*아이템 세로(열) 방향 배치*/
+            /*flex-direction: column-reverse;*/ /*아이템 세로(열)로 역순 배치*/
+            /* flex-direction: row-reverse; */ /*아이템 가로(행) 역순 배치*/
+        }
+    </style>
+</head>
+<body>
+        <div class="container"> <!--부모요소 div.container를 Flex Container-->
+        <div id="item">helloflex</div> <!--자식요소 div.item를 Flex Item-->
+        <div id="item">abc</div> 
+        <div id="item">helloflex</div>
+    </div>
+</body>
+</html>
