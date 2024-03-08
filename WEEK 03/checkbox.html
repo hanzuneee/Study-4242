@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .checkbox-label {
+            position: relative;
+            padding-left: 23px;
+            cursor: pointer;
+        }
+        .checkbox-label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #2d4373;
+            cursor: pointer;
+        }
+        input[class="checkbox"]:checked+.checkbox-label::before {
+            background-color: #2d4373;
+        }
+        input[class="checkbox"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="travel" value="travel" class="checkbox" name="checkbox" />
+    <label for="travel" class="checkbox-label">여행</label>
+
+    <input type="checkbox" id="study" value="study" class="checkbox" name="checkbox" />
+    <label for="study" class="checkbox-label">자격증</label>
+
+    <input type="checkbox" id="health" value="health" class="checkbox" name="checkbox" />
+    <label for="health" class="checkbox-label">건강</label>
+</body>
+</html>
