@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <style>
+        body {
+            font: bold;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        button { /*버튼 스타일 설정*/
+            background-color: forestgreen;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>다음 중 어떤 것이 ㄱ일까요?</h1>
+
+    <button onclick="choose('ㄱ')">ㄱ</button>
+    <button onclick="choose('ㄴ')">ㄴ</button>
+
+    <script>
+        function choose(value) {
+            if (value==="ㄱ") { // ㄱ이 선택 됐을 때 o 경고창 띄우기
+                alert("o")
+            }
+            else { // 그 이외는 x 경고창 띄우기
+                alert("x")
+            }
+        }
+    </script>
+</body>
+</html>
