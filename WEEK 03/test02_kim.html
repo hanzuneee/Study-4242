@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>옵션을 선택하면 창이 나오는 문제</title>
+    <style>
+        .selectBasic {
+            width: 200px;
+            height: 80px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <select name="" class="selectBasic" onchange="out(this.value)">
+        <option value="케로로">
+            케로로
+        </option>
+        <option value="도로로">
+            도로로
+        </option>
+        <option value="타마마">
+            타마마
+        </option>
+    </select>
+
+    <script>
+        function out(value) {
+            if (value==='케로로') {
+                alert("중사입니다.");
+            }
+            else if (value==='도로로') {
+                alert("병장입니다.");
+            }
+            else {
+                alert("이등병입니다.");
+            }
+        }
+    </script>
+    
+</body>
+</html>
