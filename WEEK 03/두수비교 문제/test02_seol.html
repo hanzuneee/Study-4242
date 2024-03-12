@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두 수 비쇼 및 연산자 출력</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /*제일 바깥 틀*/
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(205, 255, 119, 0.1);
+        }
+        /*숫자 입력*/
+        input[type="numer"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            background-color: #f3ffbf;
+        }
+        /*비교 및 연산자 ㅏ출력 버튼*/
+        button {
+            padding: 10px 20px;
+            background-color: rgba(250, 199, 208);
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        /*두 수를 비교하여 연산자가 나오도록 함*/
+        #result {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>두 수 비교 및 연산자 출력</h2>
+        <input type="numer" id="num1" placeholder="첫 번째 숫자 (-1000 ~ 1000)">
+        <input type="numer" id="num2" placeholder="두 번째 숫자 (-1000 ~ 1000)">
+        <button onclick="compareNumbers()">연산자 출력</button>
+        <div id="result"></div>
+    </div>
+</body>
+<script>
+    function compareNumbers() {
+        //입력된 숫자 가져오기
+        const num1 = parseInt(document.getElementById('num1').value);
+        const num2 = parseInt(document.getElementById('num2').value);
+        const resultDiv = document.getElementById('result');
+        //숫자의 유효성 및 범위 확인
+
+        //-1000 ~ 1000 사이의 범위를 벗어났을 때 경고창을 띄움
+
+        //경고창 초기화
+        resultDiv.innerText = '';
+        else {
+            //두 수를 비교하여 연산자 결정
+            let operator = '';
+            if {
+
+            }
+            else if {
+
+            }
+            else {
+
+            }
+            //템플릿 리터럴을 바탕으로 간단한 문자열 삽입을 위해 백탁을 사용..?
+            //결과 출력
+        }
+    }
+</script>
+</html>
