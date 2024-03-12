@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            width: 300px; height: 200px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .top {
+            width: 280px; height: 180px;
+            border: 1px solid black;
+            border-radius: 15px;
+            background-color: beige;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+        .box1, .box2, .box3 {
+            width: 70px; height: 40px;
+            border: 1px solid black;
+            border-radius: 15px;
+            background-color: white;
+            margin-top: 10px;
+            font-size: 22px;
+            text-align: center;
+            line-height: 40px;
+        }
+        input[type="text"] {
+            width: 250px; height: 50px;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            width: 253px; height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="top">
+            <div class="box1"></div>
+            <div class="box2"></div>
+            <div class="box3"></div>
+            <input type="text" placeholder="결과 창입니다." readonly />
+            <button onclick="Comparison()">비교하기</button>
+        </div>
+    </div>
+</body>
+<script src="/test02_park.js"></script>
+</html>

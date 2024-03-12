@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계절 맞추기</title>
+    <style>
+        body {
+            text-align: center;
+            font-weight: bold;
+        }
+        #inputMonth {
+            width: 40px;
+            height: 20px;
+        }
+        #result {
+            width: 100px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h3>몇 월인지 입력해주세요.</h3>
+    <input type="number" id="inputMonth"/> 월의 계절은 <br />
+    <br />
+    <button onclick="Season()">확인하기</button>
+</body>
+<script>
+    function Season() {
+        let month = parseInt(document.getElementById('inputMonth').value);
+
+        //3~5월 봄, 6~8월 여름, 9~11월 가을, 12~2월 겨울 + '봄입니다', '여름입니다', '가을입니다', '겨울입니다' 알림창 띄우기
+        if(month >= 3 && month<= 5) { // 봄
+            alert('봄입니다')
+            document.body.style.backgroundColor = '#fbe4eb';
+        }
+        else if(month >= 6 && month<= 8) { // 여름
+            alert('여름입니다')
+            document.body.style.backgroundColor = '#dbead5';
+        }
+        else if(month >= 9 && month <=11 ) {//가을
+            alert('가을입니다')
+            document.body.style.backgroundColor = '#ffead8';
+        }
+        else if(month == 12 ^ month == 1 ^ month == 2) { //겨울
+            alert('겨울입니다')
+            document.body.style.backgroundColor = '#e6f4fa';
+        }
+        else {
+            alert('올바른 월을 입력하세요. (1~12)');
+        }
+    }
+</script>
+</html>

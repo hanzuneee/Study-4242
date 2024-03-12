@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>무지개의 4번째 색은 뭘까요?</h3>
+    <button onclick="selectorColor();">정답!</button>
+
+    <script>
+    //Q1. 정답버튼을 눌렀을 때 무지개의 4번째 색인 Green이 alert창에 뜨게 하세요.
+    function selectorColor() {
+        var color = 4;
+        var colorName;
+
+        switch(color) {
+            case 1:
+            colorName = 'Red';
+            break;
+            case 2:
+            colorName = 'Orange';
+            break;
+            case 3:
+            colorName = 'Yellow';
+            break;
+            case 4:
+            colorName = 'Green';
+            break;
+            case 5:
+            colorName = 'Blue';
+            break;
+            case 6:
+            colorName = 'DeepBlue';
+            break;
+            case 7:
+            colorName = 'Purple';
+            break;
+            default:
+            colorName = NaN;
+        }
+        //문자열로 된 colorName을 alert창에 띄우는 코드
+        alert (colorName);
+
+        //Q2. colorName 글자수의 짝/홀수를 감별하는 코드의 빈칸을 채워넣으세요.
+        if (colorName == 'Green') {
+            if (colorName == 'Green') {
+                alert(colorName + '의 글자수는 짝수 입니다.');
+            }
+            else if {
+                alert(colorName + '의 글자수는 홀수 입니다.');
+            }
+            else {
+                alert('Try again');
+            }
+        }
+    }
+    </script>
+</body>
+</html>
