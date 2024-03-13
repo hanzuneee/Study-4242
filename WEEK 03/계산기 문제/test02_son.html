@@ -6,19 +6,37 @@
     <title>버튼 계산기</title>
 </head>
 <body>
-    <button>+</button>
-    <button>-</button>
-    <button>*</button>
-    <button>/</button>
-    <button>&</button>
+    <button onclick="calc('plus')">+</button>
+    <button onclick="calc('minus')">-</button>
+    <button onclick="calc('multiply')">*</button>
+    <button onclick="calc('divide')">/</button>
+    <button onclick="calc('and')">%</button>
 </body>
 <script>
-    
-    var one = prompt("첫 번째 숫자를 입력하세요.");
-    var two = prompt("두 번째 숫자를 입력하세요.");
+    function calc(operation) {
+        var one = prompt("첫 번째 숫자를 입력하세요.");
+        var two = prompt("두 번째 숫자를 입력하세요.");
+        var result;
 
-    var result = 
+        switch(operation) {
+            case "plus":
+                result = parseFloat(one) + parseFloat(two);
+                break;
+            case "minus":
+                result = parseFloat(one) - parseFloat(two);
+                break;
+            case "multiply":
+                result = parseFloat(one) * parseFloat(two);
+                break;
+            case "divide":
+                result = parseFloat(one) / parseFloat(two);
+                break;
+            case "and":
+                result = parseFloat(one) % parseFloat(two);
+                return;
+        }
 
-    alert("덧셈 결과: " + result);
+        alert("연산 결과: " + result);
+    }
 </script>
 </html>
