@@ -1,5 +1,5 @@
 function agecalc () {
-    var x = 2, result;
+    var x = 22, result;
     result = --x;
     
     if (result === 21) {
