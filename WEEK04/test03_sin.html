@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>객체 리터럴 생성</title>
+    <style>
+        body {
+
+        }
+        button {
+            width: 170;
+            height: 40px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="studentId1()">나의 학번은?</button>
+    <button onclick="major1()">나의 전공은?</button>
+    <button onclick="gender1()">나의 성별은?</button>
+    <button onclick="compliment1()">나에게 해주고 싶은 말은?</button>
+    <script>
+        //1.(첫번째) 객체 리터럴 안에 (두번째) 객체 리터럴 만들기
+        const junlee = {
+            school: {
+                studentId1: "202310500",
+                major1: "Medical Information"
+            },
+            gender: {
+                gender1: "Female"
+            }
+        };
+
+        //2. 함수로 프로퍼티 동적 생성하여 alert 창에 값 띄우기
+        function compliment1 () {
+            //compliment라는 프로퍼티 키로 프로퍼티 동적 생성 (자신에게 해주고 싶은 말❤)
+
+
+        }
+        
+        //studentId1 함수 (student-Id 값 alert 창에 값 띄우기)
+        function studentId1() {
+            alert('student-Id')
+        }
+        //major1 함수 (major 값 alert 창에 값 띄우기)
+        function major1() {
+
+        }
+         //gender1 함수 (gender 값 alert 창에 값 띄우기)
+        function gender1() {
+            
+        }
+    </script> 
+</body>
+</html>

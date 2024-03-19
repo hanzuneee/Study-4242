@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체 리터럴을 활용한 학생 정보</title>
+</head>
+<body>
+    <div id="studentInfo"></div>
+
+    <script>
+        const students = [
+        {
+            이름:'한준이',
+            나이: 21,
+            정보: {
+                키: 200,
+                시력: 2.0,
+            },
+            좋아하는활동: ['노래듣기', '누워있기'],
+            성별: '여성'
+        },
+        {
+            이름:'박소정',
+            나이: 21,
+            정보: {
+                키: 201,
+                시력: 2.1,
+            },
+            좋아하는활동: ['뜨개질하기', '만화보기'],
+            성별: '여성'
+        },
+        {
+            이름:'전예지',
+            나이: 21,
+            정보: {
+                키: 202,
+                시력: 2.2,
+            },
+            좋아하는활동: ['영화시청', '쇼핑'],
+            성별: '여성'
+        },
+        ];
+
+        const studentInfoContainer = document.getElementById('studentInfo');
+    </script>
+</body>
+</html>

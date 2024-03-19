@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="test03_park.js"></script>
+    <style>
+        .main {
+            width: 400px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .profil {
+            text-align: center;
+        }
+        h1 {
+            margin: 0px;
+        }
+        .box {
+            width: 200px; height: 300px;
+            border: 4px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        .name, .age, .hobby, .color {
+            font-size: 30px;
+            font-weight: 700;
+            display: none;
+        }
+        .plus {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        .minus {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        button {
+            width: 70px; height: 40px;
+        }
+        h2 {
+            text-align: center;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="profil">
+            <h1>프로필</h1>
+            <div class="box">
+                <div class="name">한준이</div>
+                <div class="age">21살</div>
+                <div class="hobby">노래 듣기</div>
+                <div class="color">남색</div>
+            </div>
+        </div>
+        <div class="plus">
+            <h2>추가</h2>
+            <button class="p_name">이름</button>
+            <button class="p_age">나이</button>
+            <button class="p_hobby">취미</button>
+            <button class="p_color">좋아하는 색</button>
+        </div>
+        <div class="minus">
+            <h2>삭제</h2>
+            <button class="m_name">이름</button>
+            <button class="m_age">나이</button>
+            <button class="m_hobby">취미</button>
+            <button class="m_color">좋아하는 색</button>
+        </div>
+    </div>
+</body>
+</html>
