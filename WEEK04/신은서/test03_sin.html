@@ -7,7 +7,7 @@
     <title>객체 리터럴 생성</title>
     <style>
         body {
-
+            
         }
         button {
             width: 170;
@@ -25,33 +25,32 @@
         //1.(첫번째) 객체 리터럴 안에 (두번째) 객체 리터럴 만들기
         const junlee = {
             school: {
-                studentId1: "202310500",
-                major1: "Medical Information"
+                'student-Id': '202310500',
+                major: 'Medical Information',
             },
-            gender: {
-                gender1: "Female"
-            }
+            gender: 'Female'
         };
 
         //2. 함수로 프로퍼티 동적 생성하여 alert 창에 값 띄우기
         function compliment1 () {
             //compliment라는 프로퍼티 키로 프로퍼티 동적 생성 (자신에게 해주고 싶은 말❤)
-
-
+            junlee.compliment = "할 수 있당!!"
+            alert(junlee.compliment)
         }
         
         //studentId1 함수 (student-Id 값 alert 창에 값 띄우기)
         function studentId1() {
-            alert('student-Id')
+            alert(junlee['school']['student-Id']);
         }
         //major1 함수 (major 값 alert 창에 값 띄우기)
         function major1() {
-
+            alert(junlee.school.major);
         }
          //gender1 함수 (gender 값 alert 창에 값 띄우기)
         function gender1() {
-            
+            alert(junlee['gender']);
         }
+        console.log(junlee.compliment);
     </script> 
 </body>
 </html>

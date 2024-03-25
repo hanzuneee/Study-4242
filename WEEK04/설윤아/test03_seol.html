@@ -54,20 +54,17 @@
         <button onclick="saveMemo()">저장</button>
         <button onclick="clearMemo()">지우기</button>
     </div>
-    
     <script>
        // 문제1.사용자가 입력한 메모를 가져와서 저장을 하면 메모가 저장되었다는 경고창을 표시함.
     function saveMemo() {
         const memo = document.getElementById('memo').value;
-
-        console.log('메모가 저장되었습니다.')
+        localStorage.setItem('memo', memo);
+        alert("메모가 저장되었습니다.")
     }
-    
     // 문제2. id가 memo인 입력 요소의 값을 빈 문자열로 설정하여 입력된 메모를 지웁니다.
         function clearMemo() {
             document.getElementById('memo').value = '';
         }
     </script>
-    
     </body>
     </html>
