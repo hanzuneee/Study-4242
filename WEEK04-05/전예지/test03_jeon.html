@@ -43,6 +43,22 @@
         ];
 
         const studentInfoContainer = document.getElementById('studentInfo');
+
+        function Info() {
+        students.forEach(function (student) {
+            const studentInfo = document.createElement('div');
+            studentInfo.innerHTML = `
+                <h2>이름: ${student.이름}</h2>
+                <p>나이: ${student.나이}</p>
+                <p>키: ${student.정보.키}</p>
+                <p>시력: ${student.정보.시력}</p>
+                <p>좋아하는 활동: ${student.좋아하는활동}</p>
+                <p>성별: ${student.성별}</p>
+            <hr>
+            `;
+            studentInfoContainer.appendChild(studentInfo);
+        });
+    }
     </script>
 </body>
 </html>

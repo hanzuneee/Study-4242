@@ -51,14 +51,19 @@
         // addList() : 사용자가 입력한 일을 가져와서 리스트에 추가하는 함수
         // trim()을 사용하여 입력한 문자열 앞뒤의 공백 제거하여 문자열의 내용만 남기기
 
-        if () {
-          // 문자열이 비어있지 않는다면
+        const userInput = document.querySelector('#inputList');
+        const toDo = input.value.trim();
+
+         // 문자열이 비어있지 않는다면
+        if (toDo !== '') {
           // 리스트의 내용을 출력하기 위해 빈 ul 요소를 만들어주고
+          
           // appendChild()를 사용하여 ul 요소의 문자열을 리스트에 추가해준 후
           // 입력 필드를 비워서 새로운 할 일을 입력하게 만들어줌
         } else {
           // 문자열이 공백이라면 입력하라는 알림 띄우기
-        }
+          alert('할일을 입력하세요.')
+        };
         }
     </script>
     </body>
