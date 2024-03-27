@@ -67,7 +67,7 @@
         </div>
         <div class="buttons">
             <button onclick="calculate()">=</button>
-            <button onclick="calculate()">c</button>
+            <button onclick="resetDisplay()">c</button>
         </div>
     </div>
 
@@ -81,9 +81,16 @@
             }
         }
 
+        //계산 버튼
         function calculate() {
             var display = document.querySelector('#display');
             display.textContent = eval(display.textContent);
+        }
+
+        //입력창 초기화
+        function resetDisplay() {
+            var display = document.querySelector('#display');
+            display.textContent = '0';
         }
     </script>
 </body>
