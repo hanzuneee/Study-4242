@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runners Literal</title>
+<style>
+    body{
+    background-color: rgb(255, 255, 147);
+    }
+    button{
+    width: 90px; height: 80px;
+    }
+    #inputYear{
+    border: 1px solid black;
+    width: 250px;
+    }
+</style>
+</head>
+<br>
+<button onclick="winner()">수상자 이력 검색</button>
+<input type="text" id="inputYear" placeholder="검색하고 싶으신 연도를 입력하세요">
+<button onclick="ageAvg()">선수들 평균나이는?</button><br>
+<textarea id="textarea" cols="20" rows="10" readonly></textarea>
+
+
+<script>
+    const runningArr = [
+    {name: '김윤수', age: '17', year: 2023,
+    moto: "항상..최선을 다합니다..!"},
+    {name: '이지예', age: '18', year: 2022,
+    moto: "우승은 내꺼이지예"},
+    {name: '김첨지', age: '21', year: 2021,
+    moto: "운수가 좋은 날이네요~"},
+    {name: '오타니', age: '29', year: 2020,
+    moto: "전 달리기도 잘합니다"},
+    ]
+
+    //Q1)input에 숫자를 입력받아 그에 따른 수상자 정보 내보내기
+    function winner() {
+    let year = document.querySelector('#inputYear').value;
+    let result = "";
+    let found = false;
+
+      //if문을 사용하여 입력한 년도수에 따라 각각의 객체리터럴을 textarea에 내보냄
+      //자바스크립트 객체를 JSON문자열로 변환하여야 값이 출력됨!
+    for  (let i= 0; i <  runningArr.length; i++) {
+        if (runningArr[i].year == year) {
+            found = true;
+            result += '이름: ' + runningArr[i].name + ', 나이: ' + runningArr[i].age + ', 연도: ' + runningArr[i].year + ', 모토: ' + runningArr[i].moto + '\n';
+        }
+    }
+    
+    if (found) {
+        document.querySelector('#textarea').textContent = result;
+    } else {
+        alert("연도를 다시 입력해주세요.")
+    }
+    }
+
+//칸이 넓어서 그렇지 다~~~~복붙입니다!!ㅠㅠ할 수 있다...화팅❣️
+
+
+    //Q2)선수들의 나이 평균값 내기
+    //parseInt함수를 통해 숫자로 변환 후 평균을 내기
+    //결과 alert창에 띄우기("선수들의 평균나이는 ㅇㅇ입니다.")
+    function ageAvg() {
+        let totalAge = 0;
+        for (let i = 0; i <  runningArr.length; i++) {
+            totalAge += parseInt(runningArr[i].age);
+        }
+        let avgAge = totalAge / runningArr.length;
+        alert('선수들의 평균나이는 '+ avgAge +'입니다.');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로또 번호 생성기</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<h1>♣로또 번호 생성기♣</h1>
+<p>다음주에 학교 안 나오면 그렇게 알아라... </p>
+<p id="lottoNumbers"></p>
+<button onclick="result()">두근두근...♡///</button>
+
+<script>
+var lottoNumbers = [];
+
+function result() {
+    lottoNumbers = [];
+
+    // 1부터 45까지의 숫자를 배열에 넣음
+    for (var i = 1; i <= 45; i++) {
+        lottoNumbers.push(i);
+    }
+
+    var selectedNumbers = [];
+
+    // 무작위로 6개의 숫자를 선택하여 selectedNumbers 배열에 넣음
+    for (var i = 0; i < 6; i++) {
+        // 배열의 크기만큼의 무작위 인덱스를 생성
+        var random = Math.floor(Math.random() * lottoNumbers.length);
+
+        // 무작위로 선택된 숫자를 selectedNumber 변수에 할당
+        var selectedNumber = lottoNumbers[random];
+
+        // 선택된 숫자를 selectedNumbers 배열에 추가
+        selectedNumbers.push(selectedNumber);
+
+        // 선택 중복 방지, *splice - 기존요소를 삭제하거나 교체함 (하나씩 삭제)
+        lottoNumbers.splice(random, 1);
+    }
+
+    // 오름차순 정렬, *sort - 정렬
+    selectedNumbers.sort(function(a, b) {
+        return a - b;
+    });
+
+    // 화면에 로또 번호 출력
+    var lottoNumbersText = selectedNumbers.join(', ');
+    document.getElementById('lottoNumbers').textContent = "추첨된 로또 번호: " + lottoNumbersText;
+}
+</script>
+</body>
+</html>
