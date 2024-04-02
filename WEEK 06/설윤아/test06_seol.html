@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>너의 글자를 다 뒤집겠어!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 300px;
+            margin: 50px auto; /*상단과 하단에 50px의 마진을 준다*/
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;  /*상하 여백은 10px*/
+            margin-bottom: 10px; /*상하 여백은 10px*/
+            box-sizing: border-box;
+            border-radius: 10px;
+            background-color: rgb(186, 235, 242);
+        }
+        button {
+            padding: 10px 20px; /*상하 여백은 10px, 좌우 여백은 20px*/
+            background-color: rgb(248, 209, 213);
+            border-radius: 10px;
+            color: #000000;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c9f938;
+        }
+        #result {     /*결과를 표시하는 요소의 스타일 지정-상단 여백 20px*/
+            margin-top: 20px;
+        }
+    </style>
+    </head>
+    <body>
+    <div class="container">
+        <h2>문자를 입력하세요.</h2>
+        <input type="text" id="inputString" placeholder="지금 가장 보고싶은 사람에게 한마디">
+        <button onclick="reverseString()">뒤집어집니다.</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        //문자열을 뒤집는 자바스크립트 함수
+        //reverseString함수는 어떤 입력도 받지 않고 , 문자열을 뒤집는 기능 수행
+        function reverseString() {
+            //Q1) inputString이라는 변수에 입력 필드의 값을 가져와서 저장. 이 입력필드의 id는 "inputString" 
+            var inputString = document.querySelector("#inputString").value;
+            var reversedString = inputString.split('').reverse().join(''); //Q2) 입력된 문자열을 배열을 이용하여 뒤집으세요.
+           //Q3) result라는 id를 가진 요소의 텍스트 내용을  "뒤집어서 보세요: " + reversedString로 변경
+            document.querySelector("#result").textContent = "뒤집어서 보세요: " + reversedString;
+        }
+    </script>
+</body>
+    </html>
