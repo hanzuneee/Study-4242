@@ -1,13 +1,11 @@
-function PlusOfNumbers(allnumbers) {
-    let answer = [];
-    let sum = 0; //0으로 초기화
-
-    for (let a of allnumbers) {
-        if (a % 2 === 1) { //홀수 구하기
-        sum += a; //합계 구하기 
+function sum(arr) {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] % 2 !== 0) {
+            sum += arr[i];
         }
     }
-    return sum; //합계 반환
+    return sum;
 }
-allnumbers = [1, 2, 3, 4, 5];
-console.log(PlusOfNumbers(allnumbers)); //결과 출력
+
+console.log(sum([1, 2, 3, 4, 5]))
