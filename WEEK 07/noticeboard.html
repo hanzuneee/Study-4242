@@ -5,10 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초간단 게시판</title>
     <style>
-        
+        #username {
+            width: 100px;
+            height: 25px;
+            text-align: center;
+        }
+        #textcontent {
+            width: 300px;
+            height: 25px;
+            text-align: center;
+        }
+        button {
+            width: 100px;
+            height: 31px;
+        }
     </style>
 </head>
 <body>
+    <h1 id="top">✨초! 간단 게시판✨</h1>
+    <input type="text" id="username" placeholder="작성자">
+    <input type="text" id="textcontent" placeholder="내용">
+    <button>글작성</button> 
+    <br>
+    <br>
     
+    <table border="1px solid black" width="550px">
+        <tr>
+            <th width="50px">번호</th>
+            <th width="100px">작성자</th>
+            <th width="250px">내용</th>
+            <th width="150px">작성일</th>
+        </tr>
+    </table>
 </body>
 </html>
