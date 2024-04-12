@@ -5,11 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초간단 게시판</title>
     <style>
+        .input-text-lable {
+            font-weight: bold;
+            min-width: 100px;
+        } 
+        input[type="number"],
+        input[type="text"] {
+            height: 38px;
+            line-height: 38px;
+            padding: 5px;
+            border-radius: 3px;
+            box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
+            border: none;
+            font-size: 14px;
+        }       
+        #add_text {
+            width: 100px;
+            height: 38px;
+        }    
+        table{
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin: auto;
+        }
+        th,
+        td {
+        border: 1px solid black;
+        text-align: center;
+        }
         body {
             text-align: center;
-        }
-        table{
-            margin: auto;
         }
         #top {
             text-align: center;
@@ -34,17 +59,47 @@
     <h1 id="top">✨초! 간단 게시판✨</h1>
     <input type="text" id="username" placeholder="작성자">
     <input type="text" id="textcontent" placeholder="내용">
-    <button>글작성</button> 
+    <button id="addtext" onclick="addText()">글작성</button> 
     <br>
     <br>
+    <div id="textlist"></div>
     
-    <table border="1px solid black" width="550px">
-        <tr>
-            <th width="50px">번호</th>
-            <th width="100px">작성자</th>
-            <th width="250px">내용</th>
-            <th width="150px">작성일</th>
-        </tr>
-    </table>
+    <script>
+        //글 목록 list
+        let contents = [];
+
+        const user = document.getElementById('username');
+        const content = document.getElementById('textcontent');
+        const btn_add = document.getElementById('addtext');
+        const textlist = document.getElementById('textlist');
+
+        //글 작성
+        const addText = () => {
+            const userStr = user.value;
+            const contentStr = content.value;
+
+            contents.push({id: userStr, content: contentStr, date: new Date().toLocaleString(), comment:''});
+
+            refreshList();
+        }
+
+        //글 목록 갱신
+        const refreshList = () => {
+            let htmlText = '<table> <tr> <th style="50px;">번호</th> <th style="100px;">작성자</th> <th style="250px;">내용</th> <th style="150px;">작성일</th> </tr>';
+
+            let i = 1;
+            for (let item of contents) {
+                htmlText += `<tr> <td>${i}</td> <td>${item.id}</td>`;
+                htmlText += `<td style="text-align: left;">${item.content}</td>`;
+                htmlText += `<td>${item.date}</td></tr>`;
+                i++;
+            }
+            textlist.innerHTML = htmlText + '</table>';
+            
+            // 입력창 초기화
+            user.value = '';
+            content.value = '';
+        }
+    </script>
 </body>
 </html>
