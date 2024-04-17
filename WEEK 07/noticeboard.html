@@ -85,13 +85,14 @@
 
         //글 목록 갱신
         const refreshList = () => {
-            let htmlText = '<table> <tr> <th style="50px;">번호</th> <th style="100px;">작성자</th> <th style="250px;">내용</th> <th style="150px;">작성일</th> </tr>';
+            let htmlText = '<table> <tr> <th style="50px;">번호</th> <th style="100px;">작성자</th> <th style="250px;">내용</th> <th style="150px;">작성일</th> <th style="150px;">기능</th> </tr>';
 
             let i = 1;
             for (let item of contents) {
                 htmlText += `<tr> <td>${i}</td> <td>${item.id}</td>`;
                 htmlText += `<td style="text-align: left;">${item.content}</td>`;
-                htmlText += `<td>${item.date}</td></tr>`;
+                htmlText += `<td>${item.date}</td>`;
+                htmlText += `<td><button onclick="deleteItem(${i - 1})">삭제</button> <button onclick="commentItem(${i - 1})">댓글</button></td></tr>`;
                 i++;
             }
             textlist.innerHTML = htmlText + '</table>';
