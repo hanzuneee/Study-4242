@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>초간단게시판</title>
+    <title>초간단 게시판</title>
 </head>
 <style>
     .input-text-lable {
@@ -57,6 +57,12 @@
     <input type="text" style="width: 100px;" id="user" placeholder="작성자" />
     <input type="text" style="width: 500px;" id="textcontent" placeholder="내용" />
     <button id="add_text" onclick="addText()">글작성</button>
+    <br>
+    <br>
+    <button onclick="downloadText()">저장하기</button>
+    <button for="fileBtn" class="function-btn" id="open_file">불러오기</button>
+    <button onclick="clearBoard()">게시판비우기</button>
+    <input type="file" id="fileBtn" style="display:none" accept=".json" title='Select JSON File'/>
     <br> 
     <br> 
     <br> 
@@ -70,7 +76,8 @@
         const content = document.getElementById('textcontent');
         const btn_add = document.getElementById('add_text');
         const textlist = document.getElementById('textlist');
-
+        const label = document.getElementById('open_file');
+        const fileInput = document.getElementById('fileBtn');
 
         // 글작성
         const addText = () => {
@@ -98,6 +105,25 @@
             }
         });
 
+        // 파일 선택 버튼 클릭 이벤트
+        label.addEventListener('click', function (e) {
+            e.preventDefault();
+            fileInput.click();
+        });
+
+        // 파일 선택 이벤트
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const fr = new FileReader();
+            fr.onload = () => {
+                var fileContent = fr.result;
+                var jsonObj = JSON.parse(fileContent);
+                contents = jsonObj; // 새로운 데이터로 게시판 채우기
+                refreshList(); // 게시판 다시 그리기
+            }
+            fr.readAsText(file);
+        });
+
         // 글목록 갱신
         const refreshList = () => {
             let htmlText = '<table > <tr > <th style="width: 20px;">번호</th> <th style="width: 60px;">작성자</th> <th style="width: 300px;">내용</th> <th style="width: 100px;">작성일</th> <th style="width: 100px;">기능</th></tr>';
@@ -117,7 +143,7 @@
             }
             textlist.innerHTML = htmlText + '</table>';
 
-            // 입력창 초기화
+        // 입력창 초기화
             user.value = '';
             content.value = '';
 
@@ -138,9 +164,32 @@
             }
         }
 
-    </script>
-
-</body>
-
-
-</html>
+        // 게시판 비우기
+        const clearBoard = () => {
+        if (confirm("게시판을 비우시겠습니까?")) {
+            contents = [];
+            refreshList();
+        }
+    }
+            
+            //게시판 저장하기
+            function downloadText(filename) {
+                if (contents.length == 0) {
+                    alert('저장할 데이터가 없습니다.');
+                    return;
+                }
+                var element = document.createElement('a');
+                var jsonString = JSON.stringify(contents, null, 4);    
+                
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString));
+                element.setAttribute('download', filename || 'board_data.json'); // filename이 없으면 'board_data.json'으로 다운로드
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                
+                document.body.removeChild(element); 
+            }
+        </script>
+    </body>
+    </html>
+    
