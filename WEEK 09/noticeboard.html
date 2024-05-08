@@ -5,53 +5,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초간단 게시판</title>
+    <style>
+        .input-text-lable {
+            font-weight: bold;
+            min-width: 100px;
+        }
+        
+        input[type="number"],
+        input[type="text"] {
+            height: 38px;
+            line-height: 38px;
+            padding: 5px;
+            border-radius: 3px;
+            box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
+            border: none;
+            font-size: 14px;
+        }
+        
+        #add_text {
+            width: 100px;
+            height: 38px;
+        }
+        
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            border: 1px solid #444444;
+            text-align: center;
+        }
+        
+        body {
+            text-align: center;
+        }
+        
+        #top {
+            text-align: center;
+        }
+        
+        #user {
+            width: 100px;
+            height: 25px;
+            text-align: center;
+        }
+        
+        #textcontent {
+            width: 500px;
+            height: 25px;
+            text-align: center;
+        }
+    </style>
 </head>
-<style>
-    .input-text-lable {
-        font-weight: bold;
-        min-width: 100px;
-    }
-    input[type="number"],
-    input[type="text"] {
-        height: 38px;
-        line-height: 38px;
-        padding: 5px;
-        border-radius: 3px;
-        box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
-        border: none;
-        font-size: 14px;
-    }
-    #add_text {
-        width: 100px;
-        height: 38px;
-    }
-    table {
-        width: 100%;
-        border: 1px solid #444444;
-        border-collapse: collapse;
-    }
-    th,
-    td {
-        border: 1px solid #444444;
-        text-align: center;
-    }
-    body {
-        text-align: center;
-    }
-    #top {
-        text-align: center;
-    }
-    #user {
-        width: 100px;
-        height: 25px;
-        text-align: center;
-    }
-    #textcontent {
-        width: 300px;
-        height: 25px;
-        text-align: center;
-    }
-</style>
+
 <body>
     <h1 id="top">✨초! 간단 게시판✨</h1>
     <input type="text" style="width: 100px;" id="user" placeholder="작성자" />
@@ -71,7 +80,6 @@
     <script>
         // 글목록 리스트 
         let contents = [];
-
         const user = document.getElementById('user');
         const content = document.getElementById('textcontent');
         const btn_add = document.getElementById('add_text');
@@ -143,10 +151,9 @@
             }
             textlist.innerHTML = htmlText + '</table>';
 
-        // 입력창 초기화
+            // 입력창 초기화
             user.value = '';
             content.value = '';
-
         }
 
         // 글 삭제
@@ -166,30 +173,29 @@
 
         // 게시판 비우기
         const clearBoard = () => {
-        if (confirm("게시판을 비우시겠습니까?")) {
-            contents = [];
-            refreshList();
-        }
-    }
-            
-            //게시판 저장하기
-            function downloadText(filename) {
-                if (contents.length == 0) {
-                    alert('저장할 데이터가 없습니다.');
-                    return;
-                }
-                var element = document.createElement('a');
-                var jsonString = JSON.stringify(contents, null, 4);    
-                
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString));
-                element.setAttribute('download', filename || 'board_data.json'); // filename이 없으면 'board_data.json'으로 다운로드
-                element.style.display = 'none';
-                document.body.appendChild(element);
-                element.click();
-                
-                document.body.removeChild(element); 
+            if (confirm("게시판을 비우시겠습니까?")) {
+                contents = [];
+                refreshList();
             }
-        </script>
-    </body>
-    </html>
-    
+        }
+
+        // 게시판 저장하기
+        function downloadText(filename) {
+            if (contents.length == 0) {
+                alert('저장할 데이터가 없습니다.');
+                return;
+            }
+            var element = document.createElement('a');
+            var jsonString = JSON.stringify(contents, null, 4);
+            
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString));
+            element.setAttribute('download', filename || 'board_data.json'); // filename이 없으면 'board_data.json'으로 다운로드
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            
+            document.body.removeChild(element); 
+        }
+    </script>
+</body>
+</html>
