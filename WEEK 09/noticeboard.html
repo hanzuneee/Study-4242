@@ -1,106 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>초간단 게시판</title>
-    <style>
-        .input-text-lable {
-            font-weight: bold;
-            min-width: 100px;
-        } 
-        input[type="number"],
-        input[type="text"] {
-            height: 38px;
-            line-height: 38px;
-            padding: 5px;
-            border-radius: 3px;
-            box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
-            border: none;
-            font-size: 14px;
-        }       
-        #add_text {
-            width: 100px;
-            height: 38px;
-        }    
-        table{
-            border: 1px solid black;
-            border-collapse: collapse;
-            margin: auto;
-        }
-        th,
-        td {
-        border: 1px solid black;
-        text-align: center;
-        }
-        body {
-            text-align: center;
-        }
-        #top {
-            text-align: center;
-        }
-        #username {
-            width: 100px;
-            height: 25px;
-            text-align: center;
-        }
-        #textcontent {
-            width: 300px;
-            height: 25px;
-            text-align: center;
-        }
-        button {
-            width: 100px;
-            height: 36px;
-        }
-    </style>
+    <title>초간단게시판</title>
 </head>
+<style>
+    .input-text-lable {
+        font-weight: bold;
+        min-width: 100px;
+    }
+    input[type="number"],
+    input[type="text"] {
+        height: 38px;
+        line-height: 38px;
+        padding: 5px;
+        border-radius: 3px;
+        box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
+        border: none;
+        font-size: 14px;
+    }
+    #add_text {
+        width: 100px;
+        height: 38px;
+    }
+    table {
+        width: 100%;
+        border: 1px solid #444444;
+        border-collapse: collapse;
+    }
+    th,
+    td {
+        border: 1px solid #444444;
+        text-align: center;
+    }
+    body {
+        text-align: center;
+    }
+    #top {
+        text-align: center;
+    }
+    #user {
+        width: 100px;
+        height: 25px;
+        text-align: center;
+    }
+    #textcontent {
+        width: 300px;
+        height: 25px;
+        text-align: center;
+    }
+</style>
 <body>
     <h1 id="top">✨초! 간단 게시판✨</h1>
-    <input type="text" id="username" placeholder="작성자">
-    <input type="text" id="textcontent" placeholder="내용">
-    <button id="addtext" onclick="addText()">글작성</button> 
-    <br>
-    <br>
+    <input type="text" style="width: 100px;" id="user" placeholder="작성자" />
+    <input type="text" style="width: 500px;" id="textcontent" placeholder="내용" />
+    <button id="add_text" onclick="addText()">글작성</button>
+    <br> 
+    <br> 
+    <br> 
     <div id="textlist"></div>
-    
+
     <script>
-        //글 목록 list
+        // 글목록 리스트 
         let contents = [];
 
-        const user = document.getElementById('username');
+        const user = document.getElementById('user');
         const content = document.getElementById('textcontent');
-        const btn_add = document.getElementById('addtext');
+        const btn_add = document.getElementById('add_text');
         const textlist = document.getElementById('textlist');
 
-        //글 작성
+
+        // 글작성
         const addText = () => {
             const userStr = user.value;
             const contentStr = content.value;
 
-            contents.push({id: userStr, content: contentStr, date: new Date().toLocaleString(), comment:''});
+            contents.push({ id: userStr, content: contentStr, date: new Date().toLocaleString(), comments: []});
 
             refreshList();
         }
 
-        //글 목록 갱신
+        // 'user' 입력 필드에 대한 Enter 키 입력 감지 이벤트
+        user.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) { // Enter 키가 눌렸는지 확인
+                event.preventDefault(); // Enter 키의 기본 동작 방지
+                content.focus(); // 'textcontent' 입력란에 포커스 설정
+            }
+        });
+
+        // 'content' 입력 필드에 대한 Enter 키 입력 감지 이벤트
+        content.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) { // Enter 키가 눌렸는지 확인
+                event.preventDefault(); // Enter 키의 기본 동작 방지
+                addText(); // 새로운 글 작성
+            }
+        });
+
+        // 글목록 갱신
         const refreshList = () => {
-            let htmlText = '<table> <tr> <th style="50px;">번호</th> <th style="100px;">작성자</th> <th style="250px;">내용</th> <th style="150px;">작성일</th> <th style="150px;">기능</th> </tr>';
+            let htmlText = '<table > <tr > <th style="width: 20px;">번호</th> <th style="width: 60px;">작성자</th> <th style="width: 300px;">내용</th> <th style="width: 100px;">작성일</th> <th style="width: 100px;">기능</th></tr>';
 
             let i = 1;
             for (let item of contents) {
-                htmlText += `<tr> <td>${i}</td> <td>${item.id}</td>`;
-                htmlText += `<td style="text-align: left;">${item.content}</td>`;
-                htmlText += `<td>${item.date}</td>`;
-                htmlText += `<td><button onclick="deleteItem(${i - 1})">삭제</button> <button onclick="commentItem(${i - 1})">댓글</button></td></tr>`;
+                htmlText += `<tr > <td>${i}</td> <td>${item.id}</td>`;
+                htmlText += `<td style="text-align: left;">${item.content}`;
+                if (item.comments.length > 0) {
+                    htmlText += `<br>댓글: ${item.comments.join('<br>')}</td>`;
+                } else {
+                    htmlText += `</td>`;
+                }
+                htmlText += `<td>${item.date}</td>`
+                htmlText += `<td><button onclick="deleteText(${i - 1})">삭제</button> <button onclick="addComment(${i - 1})">댓글</button></td></tr>`;
                 i++;
             }
             textlist.innerHTML = htmlText + '</table>';
-            
-            //입력창 초기화
+
+            // 입력창 초기화
             user.value = '';
             content.value = '';
+
         }
+
+        // 글 삭제
+        const deleteText = (index) => {
+            contents.splice(index, 1);
+            refreshList();
+        }
+
+        // 댓글 추가
+        const addComment = (index) => {
+            const comment = prompt("댓글을 입력하세요:");
+            if (comment !== null) {
+                contents[index].comments.push(`${comment} (${new Date().toLocaleString()})`);
+                refreshList();
+            }
+        }
+
     </script>
+
 </body>
+
+
 </html>
