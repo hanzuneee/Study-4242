@@ -187,15 +187,16 @@
             }
             var element = document.createElement('a');
             var jsonString = JSON.stringify(contents, null, 4);
-            
+
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString));
             element.setAttribute('download', filename || 'board_data.json'); // filename이 없으면 'board_data.json'으로 다운로드
             element.style.display = 'none';
             document.body.appendChild(element);
             element.click();
             
-            document.body.removeChild(element); 
+            document.body.removeChild(element);
         }
     </script>
+
 </body>
 </html>
