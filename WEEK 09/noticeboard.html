@@ -43,20 +43,16 @@
             text-align: center;
         }
         
-        #top {
+        #top, #user, #textcontent {
             text-align: center;
         }
-        
-        #user {
-            width: 100px;
-            height: 25px;
-            text-align: center;
+
+        #downloadtext, #open_file, #clearboard {
+            text-align: right;
         }
-        
-        #textcontent {
-            width: 500px;
-            height: 25px;
-            text-align: center;
+
+        #searchInput, #searchbtn, #out_searchbtn {
+            text-align: left;
         }
     </style>
 </head>
@@ -68,13 +64,18 @@
     <button id="add_text" onclick="addText()">글작성</button>
     <br>
     <br>
-    <button onclick="downloadText()">저장하기</button>
+    <button id="downloadtext" onclick="downloadText()">저장하기</button>
     <button for="fileBtn" class="function-btn" id="open_file">불러오기</button>
-    <button onclick="clearBoard()">게시판비우기</button>
+    <button id="clearboard" onclick="clearBoard()">게시판비우기</button>
     <input type="file" id="fileBtn" style="display:none" accept=".json" title='Select JSON File'/>
     <br> 
     <br> 
+    <input type="text" style="width: 400px;" id="searchInput" placeholder="검색어를 입력하세요." />
+    <button id="searchbtn" onclick="searchText()">검색</button>
+    <button id="out_searchbtn" onclick="outSearchText()">검색해제</button>
     <br> 
+    <br>
+    <br>
     <div id="textlist"></div>
 
     <script>
@@ -97,7 +98,7 @@
             refreshList();
         }
 
-        // 'user' 입력 필드에 대한 Enter 키 입력 감지 이벤트
+        // 'user' Enter 키 이벤트
         user.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) { // Enter 키가 눌렸는지 확인
                 event.preventDefault(); // Enter 키의 기본 동작 방지
@@ -105,7 +106,7 @@
             }
         });
 
-        // 'content' 입력 필드에 대한 Enter 키 입력 감지 이벤트
+        // 'content' Enter 키 이벤트
         content.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) { // Enter 키가 눌렸는지 확인
                 event.preventDefault(); // Enter 키의 기본 동작 방지
@@ -189,7 +190,7 @@
             var jsonString = JSON.stringify(contents, null, 4);
 
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString));
-            element.setAttribute('download', filename || 'board_data.json'); // filename이 없으면 'board_data.json'으로 다운로드
+            element.setAttribute('download', filename || 'data.json'); 
             element.style.display = 'none';
             document.body.appendChild(element);
             element.click();
