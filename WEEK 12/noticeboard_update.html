@@ -5,55 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초간단게시판</title>
+    <style>
+        .input-text-lable {
+            font-weight: bold;
+            min-width: 100px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            height: 38px;
+            line-height: 38px;
+            padding: 5px;
+            border-radius: 3px;
+            box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
+            border: none;
+            font-size: 14px;
+        }
+
+        .normal-btn {
+            width: 100px;
+            height: 38px;
+            font-size: 14px;
+        }
+
+        .function-btn {
+            width: 200px;
+            height: 30px;
+            font-size: 14px;
+            border-radius: 3px;
+            border: 1px solid #0887f0;
+            background: #d8eef7;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #444444;
+            text-align: center;
+        }
+    </style>
 </head>
-<style>
-    .input-text-lable {
-        font-weight: bold;
-        min-width: 100px;
-    }
-
-    input[type="number"],
-    input[type="text"] {
-        height: 38px;
-        line-height: 38px;
-        padding: 5px;
-        border-radius: 3px;
-        box-shadow: 0 0 3px rgba(40, 40, 40, 0.2);
-        border: none;
-        font-size: 14px;
-    }
-
-    .normal-btn {
-        width: 100px;
-        height: 38px;
-        font-size: 14px;
-    }
-
-    .function-btn {
-        width: 200px;
-        height: 30px;
-        font-size: 14px;
-        border-radius: 3px;
-        border: 1px solid #0887f0;
-        background: #d8eef7;
-
-    }
-
-    table {
-        width: 100%;
-        border: 1px solid #444444;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        border: 1px solid #444444;
-        text-align: center;
-    }
-</style>
-
-<!-- 게시판 : 추가 버전 5 -->
-<!-- 글수정 추가, 로컬 스토리지 저장/읽기 -->
 
 <body>
     <p>
@@ -70,25 +66,21 @@
     <br>
     <hr>
     <br>
-    <!-- 기능 패널 -->
     <div style="float: right;">
         <button id="download_text" class="function-btn" onclick="downloadText('contents.json')">저장하기</button>
         <button for="fileBtn" class="function-btn" id="open_file">불러오기</button>
         <input type="file" id="fileBtn" style="display:none" accept=".json" title='Select JSON File' />
         <button id="clearall_text" class="function-btn">게시판비우기</button>
-
     </div>
     <br>
     <br>
     <hr>
     <br>
 
-    <!-- 검색 패널 -->
     <div style="float: left;">
         <input type="text" style="width: 350px;" id="text_find" placeholder="검색어 입력" />
         <button id="findtextBtn" class="normal-btn">검색</button>
         <button id="viewallBtn" class="normal-btn">검색해제</button>
-
     </div>
     <br>
     <div id="textlist">
@@ -100,334 +92,214 @@
                 <th style="width: 100px;">작성일</th>
                 <th style="width: 100px;">기능</th>
             </tr>
+        </table>
     </div>
 
     <script>
-
-
-        // 글목록 리스트 
         let contents = [];
         let pagesize = 5;
         let now_pagenum = 1;
 
         const user = document.getElementById('user');
         const content = document.getElementById('textcontent');
-        const btn_add = document.getElementById('add_text');
         const textlist = document.getElementById('textlist');
-        const label = document.getElementById('open_file');
         const fileInput = document.getElementById('fileBtn');
         const text_find = document.getElementById('text_find');
         const findBtn = document.getElementById('findtextBtn');
         const viewallBtn = document.getElementById('viewallBtn');
         const clearallBtn = document.getElementById('clearall_text');
 
-
-        // 초기화
         initContents();
 
-
-        ///////////////////////////////////////////////////////////
-        // 이벤트 핸들러 등록
         user.addEventListener('keydown', function (e) {
             if (e.keyCode === 13) {
                 content.focus();
             }
         });
+
         content.addEventListener('keydown', function (e) {
             if (e.keyCode === 13) {
                 addText();
             }
         });
 
-        label.addEventListener('click', function (e) {
+        document.getElementById('open_file').addEventListener('click', function (e) {
             e.preventDefault();
-
             fileInput.click();
         });
+
         clearallBtn.addEventListener('click', function (e) {
             e.preventDefault();
-
             clearAll();
         });
 
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
-
             const fr = new FileReader();
             fr.onload = () => {
-                var fileContent = fr.result;
-                var jsonObj = JSON.parse(fileContent);
-                console.log(jsonObj);
-
-                contents = jsonObj;
-
+                contents = JSON.parse(fr.result);
                 now_pagenum = 1;
                 refreshList(contents, 1, pagesize);
-
             }
-
             fr.readAsText(file);
-
         });
 
-        findBtn.addEventListener('click', function (e) {
-
-            let findList = contents.filter(item => {
-                if (item.content.includes(text_find.value)) {
-                    return true;
-
-                }
-
-                for (let comment of item.comment) {
-                    if (comment.includes(text_find.value)) {
-                        return true;
-                    }
-                }
-                return false;
+        findBtn.addEventListener('click', function () {
+            const searchTerm = text_find.value.trim();
+            if (!searchTerm) return;
+            const findList = contents.filter(item => {
+                return item.content.includes(searchTerm) || item.comment.some(comment => comment.includes(searchTerm));
             });
-
-
             refreshList(findList, 1, pagesize);
-
         });
 
-        viewallBtn.addEventListener('click', function (e) {
-
+        viewallBtn.addEventListener('click', function () {
             text_find.value = '';
             refreshList(contents, 1, pagesize);
-
         });
 
-
-        ///////////////////////////////////////////////////////////
-        // 기능함수
-
-        // 기존 게시글 로드
         function initContents() {
-
-            // 로컬스토리지에서 게시글 로드
-            contents = localStorage.getItem('textList');
-
-            if (contents) {
-                contents = JSON.parse(contents);
+            const storedContents = localStorage.getItem('textList');
+            if (storedContents) {
+                contents = JSON.parse(storedContents);
                 refreshList(contents, 1, pagesize);
             }
         }
 
-        // // 로컬스토리지에 게시글 저장
         function saveContents() {
             localStorage.setItem('textList', JSON.stringify(contents));
         }
 
-
-        // 글작성
         function addText() {
-            const userStr = user.value;
-            const contentStr = content.value;
+            const userStr = user.value.trim();
+            const contentStr = content.value.trim();
 
-            let idNum = 1;
+            if (!userStr || !contentStr) return;
 
-            if (contents.length > 0) {
-                idNum = contents.reduce((acc, item) => {
-                    return acc > item.no ? acc : item.no;
-                }, 0) + 1;
-            }
+            const idNum = contents.length ? Math.max(...contents.map(item => item.no)) + 1 : 1;
 
             contents.push({ no: idNum, id: userStr, content: contentStr, date: new Date().toLocaleString(), comment: [] });
 
-            let pagenum = Math.ceil(contents.length / pagesize);
-            now_pagenum = pagenum;
-            refreshList(contents, pagenum, pagesize);
-
+            now_pagenum = Math.ceil(contents.length / pagesize);
+            refreshList(contents, now_pagenum, pagesize);
         }
 
         function clearAll() {
-            let res = confirm('정말 삭제하시겠습니까?');
-
-            if (!res) {
-                return;
-            }
-
+            if (!confirm('정말 삭제하시겠습니까?')) return;
             contents = [];
             now_pagenum = 1;
             refreshList(contents, 1, pagesize);
-
         }
 
-        // 글목록 갱신 
-        // 페이징 기능 추가 
         function refreshList(list, pagenum, pagesize) {
+            saveContents();
 
-            saveContents()
+            let htmlText = `<table>
+                <tr>
+                    <th style="width: 20px;">번호</th>
+                    <th style="width: 60px;">작성자</th>
+                    <th style="width: 300px;">내용</th>
+                    <th style="width: 100px;">작성일</th>
+                    <th style="width: 100px;">기능</th>
+                </tr>`;
 
-            let htmlText = '<table > <tr > <th style="width: 20px;">번호</th> <th style="width: 60px;">작성자</th> <th style="width: 300px;">내용</th> <th style="width: 100px;">작성일</th> <th style="width: 100px;">기능</th> </tr>';
+            const startIdx = (pagenum - 1) * pagesize;
+            const endIdx = Math.min(startIdx + pagesize, list.length);
 
-            let endIdx = pagenum * pagesize;
-            if (endIdx > list.length) {
-                endIdx = list.length;
-            }
-
-            for (let i = ((pagenum - 1) * pagesize); i < endIdx; i++) {
-
-                let item = list[i];
-                htmlText += `<tr > <td>${item.no}</td> <td>${item.id}</td>`;
-                htmlText += `<td style="text-align: left;"  ><div style="width:98%;!important" ondblclick="openInputText(this,${item.no})">${item.content}</div>`
-
-                // 댓글이 있을 경우 댓글을 추가    
-                if (item.comment.length > 0) {
-
-                    for (let comment of item.comment) {
-                        htmlText += `⌊ ${comment} <br> `
-                    }
-                    htmlText += `</td>`
-                } else {
-                    htmlText += `</td>`
-
+            for (let i = startIdx; i < endIdx; i++) {
+                const item = list[i];
+                htmlText += `<tr>
+                    <td>${item.no}</td>
+                    <td>${item.id}</td>
+                    <td style="text-align: left;">
+                        <div style="width: 98%;" ondblclick="openInputText(this, ${item.no})">${item.content}</div>`;
+                if (item.comment.length) {
+                    item.comment.forEach(comment => {
+                        htmlText += `<div>⌊ ${comment}</div>`;
+                    });
                 }
-
-                htmlText += `<td>${item.date}</td> 
-                    <td><button class='function-btn' style="width: 60px;" onclick="deleteText(${item.no})">삭제</button>
+                htmlText += `</td>
+                    <td>${item.date}</td>
+                    <td>
+                        <button class='function-btn' style="width: 60px;" onclick="deleteText(${item.no})">삭제</button>
                         <button class='function-btn' style="width: 60px;" onclick="addComment(${item.no})">댓글</button>
-                    </td> 
+                    </td>
                 </tr>`;
             }
 
-            // 페이징 버튼 추가
             if (list.length > pagesize) {
                 htmlText += `<tr><td colspan="5">`;
                 for (let j = 1; j <= Math.ceil(list.length / pagesize); j++) {
-                    htmlText += `<button class='normal-btn' style="width: 50px;" onclick="refreshList(contents, ${j}, ${pagesize})">${j}</button>`;
+                    htmlText += `<button class='normal-btn' style="width: 50px;" onclick="refreshList(list, ${j}, ${pagesize})">${j}</button>`;
                 }
-                htmlText += `</td><tr>`;
-
+                htmlText += `</td></tr>`;
             }
 
             textlist.innerHTML = htmlText + '</table>';
-
-            // 입력창 초기화
             user.value = '';
             content.value = '';
-
         }
 
-
-        // 글삭제
         function deleteText(index) {
-            let result = confirm('정말 삭제하시겠습니까?');
-            if (!result) {
-                return;
-            }
-
-            let itemIdx = contents.findIndex(item => item.no == index);
+            if (!confirm('정말 삭제하시겠습니까?')) return;
+            const itemIdx = contents.findIndex(item => item.no === index);
             contents.splice(itemIdx, 1);
-
-            let pagenum = Math.ceil(contents.length / pagesize);
-            now_pagenum = pagenum;
-            refreshList(contents, pagenum, pagesize);
-        }
-
-        // 댓글추가
-        function addComment(index) {
-            const comment = prompt('댓글을 입력하세요');
-            if (!comment) {
-                return;
-            }
-
-            let itemIdx = contents.findIndex(item => item.no == index);
-            contents[itemIdx].comment.push(comment + ' (' + new Date().toLocaleString() + ')');
-
+            now_pagenum = Math.ceil(contents.length / pagesize);
             refreshList(contents, now_pagenum, pagesize);
         }
 
-        // 게시글 다운로드 
-        function downloadText(filename) {
+        function addComment(index) {
+            const comment = prompt('댓글을 입력하세요');
+            if (!comment) return;
+            const itemIdx = contents.findIndex(item => item.no === index);
+            contents[itemIdx].comment.push(`${comment} (${new Date().toLocaleString()})`);
+            refreshList(contents, now_pagenum, pagesize);
+        }
 
-            if (contents.length == 0) {
+        function downloadText(filename) {
+            if (!contents.length) {
                 alert('저장할 데이터가 없습니다.');
                 return;
             }
-
-            var element = document.createElement('a');
-
-            var jsonString = JSON.stringify(contents, null, 4);
-
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString));
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(contents, null, 4)));
             element.setAttribute('download', filename);
-
             element.style.display = 'none';
             document.body.appendChild(element);
-
             element.click();
-
             document.body.removeChild(element);
         }
 
-
-
-        // 글수정 입력창 열기 
         function openInputText(obj, idx) {
-
-            let textStr = obj.innerHTML;
+            const textStr = obj.innerHTML;
             obj.innerHTML = '';
-
-            var element = document.createElement('input');
-
-            element.setAttribute('type', 'text');
-            element.setAttribute('style', 'width:100%;!important');
-            element.setAttribute('onkeydown', 'modifyContents(event, this, ' + idx + ')');
-            element.setAttribute('onblur', 'modifyCancel(event, this, ' + idx + ')');
-
-            element.style.display = 'show';
+            const element = document.createElement('input');
+            element.type = 'text';
+            element.style.width = '100%';
             element.value = textStr;
+            element.addEventListener('keydown', function (e) {
+                if (e.keyCode === 13) modifyContents(e, this, idx);
+                else if (e.keyCode === 27) modifyCancel(e, this, idx);
+            });
+            element.addEventListener('blur', function (e) {
+                modifyCancel(e, this, idx);
+            });
             obj.appendChild(element);
-
             element.focus();
-
         }
 
-        // 글수정 + 입력창 닫기
         function modifyContents(e, obj, idx) {
-
-            if (e.keyCode === 13) {
-                let textStr = obj.value;
-                let itemIdx = contents.findIndex(item => item.no == idx);
-                contents[itemIdx].content = textStr;
-
-                var parent = obj.parentElement;
-                parent.removeChild(obj);
-
-                parent.innerHTML = textStr;
-
-                refreshList(contents, now_pagenum, pagesize);
-
-            }else  if (e.keyCode === 27) {   // esc 입력
-                modifyCancel(e, obj, idx);
-            }
-        }
-
-        // 입력창만 닫기 
-        function modifyCancel(e, obj, idx) {
-
-            if(obj == undefined){
-                return;
-            }
-
-            var parent = obj.parentElement;
-
-            if(parent != undefined){
-                parent.removeChild(obj);
-            }
-
+            const textStr = obj.value;
+            const itemIdx = contents.findIndex(item => item.no === idx);
+            contents[itemIdx].content = textStr;
+            obj.parentElement.innerHTML = textStr;
             refreshList(contents, now_pagenum, pagesize);
-
         }
 
-        
-
-
+        function modifyCancel(e, obj, idx) {
+            obj.parentElement.innerHTML = contents.find(item => item.no === idx).content;
+        }
     </script>
-
 </body>
-
 
 </html>
