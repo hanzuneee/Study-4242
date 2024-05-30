@@ -209,7 +209,7 @@
             for (let i = startIdx; i < endIdx; i++) {
                 const item = list[i];
                 htmlText += `<tr>
-                    <td>${item.no}</td>
+                    <td>${i + 1}</td>
                     <td>${item.id}</td>
                     <td style="text-align: left;">
                         <div style="width: 98%;" ondblclick="openInputText(this, ${item.no})">${item.content}</div>`;
@@ -230,7 +230,7 @@
             if (list.length > pagesize) {
                 htmlText += `<tr><td colspan="5">`;
                 for (let j = 1; j <= Math.ceil(list.length / pagesize); j++) {
-                    htmlText += `<button class='normal-btn' style="width: 50px;" onclick="refreshList(list, ${j}, ${pagesize})">${j}</button>`;
+                    htmlText += `<button class='normal-btn' style="width: 50px;" onclick="refreshList(contents, ${j}, ${pagesize})">${j}</button>`;
                 }
                 htmlText += `</td></tr>`;
             }
