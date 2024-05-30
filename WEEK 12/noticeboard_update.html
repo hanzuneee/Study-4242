@@ -52,33 +52,43 @@
     }
 </style>
 
-
-<!-- 게시판 : 추가 버전 3 -->
-<!-- 검색 기능 추가 -->
+<!-- 게시판 : 추가 버전 5 -->
+<!-- 글수정 추가, 로컬 스토리지 저장/읽기 -->
 
 <body>
+    <p>
+    <h2>✨초! 간단 게시판✨</h2>
+    </p>
+    <hr>
+    <br>
+
     <input type="text" style="width: 100px;" id="user" placeholder="이름 입력" />
     <input type="text" style="width: 500px;" id="textcontent" placeholder="내용 입력" />
     <button id="add_text" class="normal-btn" onclick="addText()">글작성</button>
+
     <br>
     <br>
+    <hr>
     <br>
     <!-- 기능 패널 -->
     <div style="float: right;">
         <button id="download_text" class="function-btn" onclick="downloadText('contents.json')">저장하기</button>
         <button for="fileBtn" class="function-btn" id="open_file">불러오기</button>
         <input type="file" id="fileBtn" style="display:none" accept=".json" title='Select JSON File' />
-        <button id="clearall_text" class="function-btn" onclick="clearAll()">게시판비우기</button>
-        
+        <button id="clearall_text" class="function-btn">게시판비우기</button>
+
     </div>
+    <br>
+    <br>
+    <hr>
     <br>
 
     <!-- 검색 패널 -->
     <div style="float: left;">
         <input type="text" style="width: 350px;" id="text_find" placeholder="검색어 입력" />
-        <button id="findtextBtn" class="normal-btn" >검색</button>
-        <button id="viewallBtn" class="normal-btn" >검색해제</button>
-        
+        <button id="findtextBtn" class="normal-btn">검색</button>
+        <button id="viewallBtn" class="normal-btn">검색해제</button>
+
     </div>
     <br>
     <div id="textlist">
@@ -97,6 +107,8 @@
 
         // 글목록 리스트 
         let contents = [];
+        let pagesize = 5;
+        let now_pagenum = 1;
 
         const user = document.getElementById('user');
         const content = document.getElementById('textcontent');
@@ -107,6 +119,11 @@
         const text_find = document.getElementById('text_find');
         const findBtn = document.getElementById('findtextBtn');
         const viewallBtn = document.getElementById('viewallBtn');
+        const clearallBtn = document.getElementById('clearall_text');
+
+
+        // 초기화
+        initContents();
 
 
         ///////////////////////////////////////////////////////////
@@ -127,6 +144,11 @@
 
             fileInput.click();
         });
+        clearallBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            clearAll();
+        });
 
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
@@ -139,7 +161,8 @@
 
                 contents = jsonObj;
 
-                refreshList(contents);
+                now_pagenum = 1;
+                refreshList(contents, 1, pagesize);
 
             }
 
@@ -150,26 +173,28 @@
         findBtn.addEventListener('click', function (e) {
 
             let findList = contents.filter(item => {
-                if(item.content.includes(text_find.value)){
+                if (item.content.includes(text_find.value)) {
                     return true;
-                
-                } 
-                
-                for(let comment of item.comment){
-                    if(comment.includes(text_find.value)){
+
+                }
+
+                for (let comment of item.comment) {
+                    if (comment.includes(text_find.value)) {
                         return true;
                     }
                 }
                 return false;
             });
-            refreshList(findList);
+
+
+            refreshList(findList, 1, pagesize);
 
         });
 
         viewallBtn.addEventListener('click', function (e) {
 
             text_find.value = '';
-            refreshList(contents);
+            refreshList(contents, 1, pagesize);
 
         });
 
@@ -177,46 +202,82 @@
         ///////////////////////////////////////////////////////////
         // 기능함수
 
+        // 기존 게시글 로드
+        function initContents() {
+
+            // 로컬스토리지에서 게시글 로드
+            contents = localStorage.getItem('textList');
+
+            if (contents) {
+                contents = JSON.parse(contents);
+                refreshList(contents, 1, pagesize);
+            }
+        }
+
+        // // 로컬스토리지에 게시글 저장
+        function saveContents() {
+            localStorage.setItem('textList', JSON.stringify(contents));
+        }
+
+
         // 글작성
-        function addText () {
+        function addText() {
             const userStr = user.value;
             const contentStr = content.value;
 
-            contents.push({ id: userStr, content: contentStr, date: new Date().toLocaleString(), comment: [] });
+            let idNum = 1;
 
-            refreshList(contents);
+            if (contents.length > 0) {
+                idNum = contents.reduce((acc, item) => {
+                    return acc > item.no ? acc : item.no;
+                }, 0) + 1;
+            }
+
+            contents.push({ no: idNum, id: userStr, content: contentStr, date: new Date().toLocaleString(), comment: [] });
+
+            let pagenum = Math.ceil(contents.length / pagesize);
+            now_pagenum = pagenum;
+            refreshList(contents, pagenum, pagesize);
 
         }
-        function clearAll () {
-            let result = confirm('정말 삭제하시겠습니까?');
-            if (!result) {
+
+        function clearAll() {
+            let res = confirm('정말 삭제하시겠습니까?');
+
+            if (!res) {
                 return;
             }
 
-            contents.length = 0;
-            refreshList(contents);
+            contents = [];
+            now_pagenum = 1;
+            refreshList(contents, 1, pagesize);
 
         }
 
-        // 글목록 갱신
-        function refreshList (list){
+        // 글목록 갱신 
+        // 페이징 기능 추가 
+        function refreshList(list, pagenum, pagesize) {
 
-            if(list == undefined){
-                return;
-            }
+            saveContents()
 
             let htmlText = '<table > <tr > <th style="width: 20px;">번호</th> <th style="width: 60px;">작성자</th> <th style="width: 300px;">내용</th> <th style="width: 100px;">작성일</th> <th style="width: 100px;">기능</th> </tr>';
 
-            let i = 1;
-            for (let item of list) {
-                htmlText += `<tr > <td>${i}</td> <td>${item.id}</td>`;
-                htmlText += `<td style="text-align: left;">${item.content}`
+            let endIdx = pagenum * pagesize;
+            if (endIdx > list.length) {
+                endIdx = list.length;
+            }
+
+            for (let i = ((pagenum - 1) * pagesize); i < endIdx; i++) {
+
+                let item = list[i];
+                htmlText += `<tr > <td>${item.no}</td> <td>${item.id}</td>`;
+                htmlText += `<td style="text-align: left;"  ><div style="width:98%;!important" ondblclick="openInputText(this,${item.no})">${item.content}</div>`
 
                 // 댓글이 있을 경우 댓글을 추가    
                 if (item.comment.length > 0) {
 
-                    for(let comment of item.comment){
-                        htmlText += `<br>⌊ ${comment} `
+                    for (let comment of item.comment) {
+                        htmlText += `⌊ ${comment} <br> `
                     }
                     htmlText += `</td>`
                 } else {
@@ -225,12 +286,22 @@
                 }
 
                 htmlText += `<td>${item.date}</td> 
-                    <td><button class='function-btn' style="width: 60px;" onclick="deleteText(${i - 1})">삭제</button>
-                        <button class='function-btn' style="width: 60px;" onclick="addComment(${i - 1})">댓글</button>
-                     </td> 
+                    <td><button class='function-btn' style="width: 60px;" onclick="deleteText(${item.no})">삭제</button>
+                        <button class='function-btn' style="width: 60px;" onclick="addComment(${item.no})">댓글</button>
+                    </td> 
                 </tr>`;
-                i++;
             }
+
+            // 페이징 버튼 추가
+            if (list.length > pagesize) {
+                htmlText += `<tr><td colspan="5">`;
+                for (let j = 1; j <= Math.ceil(list.length / pagesize); j++) {
+                    htmlText += `<button class='normal-btn' style="width: 50px;" onclick="refreshList(contents, ${j}, ${pagesize})">${j}</button>`;
+                }
+                htmlText += `</td><tr>`;
+
+            }
+
             textlist.innerHTML = htmlText + '</table>';
 
             // 입력창 초기화
@@ -241,26 +312,34 @@
 
 
         // 글삭제
-        function deleteText (index) {
+        function deleteText(index) {
             let result = confirm('정말 삭제하시겠습니까?');
             if (!result) {
                 return;
             }
-            contents.splice(index, 1);
-            refreshList(contents);
+
+            let itemIdx = contents.findIndex(item => item.no == index);
+            contents.splice(itemIdx, 1);
+
+            let pagenum = Math.ceil(contents.length / pagesize);
+            now_pagenum = pagenum;
+            refreshList(contents, pagenum, pagesize);
         }
 
         // 댓글추가
-        function addComment (index) {
+        function addComment(index) {
             const comment = prompt('댓글을 입력하세요');
             if (!comment) {
                 return;
             }
-            contents[index].comment.push (comment + ' (' + new Date().toLocaleString() + ')') ;
-            refreshList(contents);
+
+            let itemIdx = contents.findIndex(item => item.no == index);
+            contents[itemIdx].comment.push(comment + ' (' + new Date().toLocaleString() + ')');
+
+            refreshList(contents, now_pagenum, pagesize);
         }
 
-
+        // 게시글 다운로드 
         function downloadText(filename) {
 
             if (contents.length == 0) {
@@ -283,6 +362,67 @@
             document.body.removeChild(element);
         }
 
+
+
+        // 글수정 입력창 열기 
+        function openInputText(obj, idx) {
+
+            let textStr = obj.innerHTML;
+            obj.innerHTML = '';
+
+            var element = document.createElement('input');
+
+            element.setAttribute('type', 'text');
+            element.setAttribute('style', 'width:100%;!important');
+            element.setAttribute('onkeydown', 'modifyContents(event, this, ' + idx + ')');
+            element.setAttribute('onblur', 'modifyCancel(event, this, ' + idx + ')');
+
+            element.style.display = 'show';
+            element.value = textStr;
+            obj.appendChild(element);
+
+            element.focus();
+
+        }
+
+        // 글수정 + 입력창 닫기
+        function modifyContents(e, obj, idx) {
+
+            if (e.keyCode === 13) {
+                let textStr = obj.value;
+                let itemIdx = contents.findIndex(item => item.no == idx);
+                contents[itemIdx].content = textStr;
+
+                var parent = obj.parentElement;
+                parent.removeChild(obj);
+
+                parent.innerHTML = textStr;
+
+                refreshList(contents, now_pagenum, pagesize);
+
+            }else  if (e.keyCode === 27) {   // esc 입력
+                modifyCancel(e, obj, idx);
+            }
+        }
+
+        // 입력창만 닫기 
+        function modifyCancel(e, obj, idx) {
+
+            if(obj == undefined){
+                return;
+            }
+
+            var parent = obj.parentElement;
+
+            if(parent != undefined){
+                parent.removeChild(obj);
+            }
+
+            refreshList(contents, now_pagenum, pagesize);
+
+        }
+
+        
 
 
     </script>
