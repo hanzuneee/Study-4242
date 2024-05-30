@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        console.log(" call XMLHttpRequest");
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://jsonplaceholder.typicode.com/todos/1');
+        xhr.send();
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                console.log("data", JSON.parse(xhr.response));
+            } else {
+                console.log("error", xhr.status, xhr.statusText);
+            }
+        };
+
+
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(response => response.json())
+        .then(data => {
+            console.log(" call fetch - 1");
+            console.log("data", data);
+        })
+        
+
+        
+        async function fetchData(url) {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error:', error);
+                throw error;
+            }
+        }
+
+        fetchData('https://jsonplaceholder.typicode.com/todos/1')
+            .then(data => {
+                console.log(" call fetch - 2");
+                console.log(data);
+            });
+
+
+    </script>
+</body>
+
+</html>
